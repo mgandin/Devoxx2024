@@ -1,0 +1,38 @@
+# OS Image thumbnail files
+**/.DS_Store
+
+# JetBrains specific configurations
+# Intellij
+.idea/*
+**/.idea/*
+!.idea/codeStyles
+*.iml
+
+# Logs
+logs
+*.log
+*.log.*
+npm-debug.log*
+
+# Compiled binary addons (http://nodejs.org/api/addons.html)
+build
+
+# Dependency directories
+node_modules
+jspm_packages
+tsconfig.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+
+
+.env.development.local
+
+deno.lock
+.report.json
+
+dist
+generated

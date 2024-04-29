@@ -1,0 +1,237 @@
+/::
+add_styles: devoxx2k24/theme.css
+add_scripts: devoxx2k24/theme.js
+::/
+
+## .[title]
+
+# Qui de Deno ou Bun arrivera en production ?
+
+<p class="subtitle">Retour d'expérience sur la mise en oeuvre des alternatives à Node.js</p>
+
+<div class="content">
+
+<div style="display: flex; align-items: center">
+!image(devoxx2k24/images/deno.png)
+!image(devoxx2k24/images/bun.png)
+!image(devoxx2k24/images/node.png)
+</div>
+
+Mathieu Gandin <br />
+
+</div>
+
+## .[no-title-slide]
+
+<div class="left-text"><p>Dilitrust</p></div>
+<div class="content">
+<div style="display: flex; align-items: center">
+!image(devoxx2k24/images/corpo.png)
+</div>
+</div>
+## .[no-title-slide]
+
+<div class="content">
+<h1>Contexte</h1>
+!image(devoxx2k24/images/archi.png)
+
+<ul>
+<li>Un module simple de provisioning d'utilisateurs et de groupes basé sur SCIM</li>
+<li>Du code assez simple qui doit être un proxy sur une API Graphql existante</li>
+<li>Doit pouvoir se déployer dans une infrastructure Kubernetes</li>
+</ul>
+</div>
+
+## .[no-title-slide]
+
+<div class="content">
+<h1>Stacks</h1>
+
+<div style="display: flex; align-items: center">
+!image(devoxx2k24/images/deno.png)
+!image(devoxx2k24/images/bun.png)
+!image(devoxx2k24/images/node.png)
+</div>
+<ul>
+<li>OK pour TypesSript, mais dans quoi on fait tourner ça ?</li>
+<li>Ce bon vieux Node.js</li>
+<li>Ou bien on tente les alternatives que sont Deno ou Bun ?</li>
+<li>Et si on tente les alternatives qu'est-ce qu'on y gagne ?</li>
+<li>Quels problèmes ça va nous causer en contrepartie ?</li>
+</ul>
+</div>
+
+## .[no-title-slide]
+
+<div class="left-text"><p>Node.js</p></div>
+
+<div class="content">
+<div style="display: flex; align-items: center">
+!image(devoxx2k24/images/node.png)
+</div>
+<ul>
+<li>Créé par Ryan Dahl en 2009</li>
+<li>Largement utilisé par la communauté de développeurs Typescript & Javascript</li>
+<li>Nécessite NPM ou Yarn comme Package Manager</li>
+<li>Nécessite un ensemble de tâches pour packager et transpiler du Typescript en Javascript</li>
+<li>Fonctionne à partir d'un moteur Chrome V8</li>
+<li>Single threaded et support de l'API Worker</li>
+</ul>
+</div>
+
+## .[no-title-slide]
+
+<div class="left-text"><p>Deno</p></div>
+
+<div class="content">
+<div style="display: flex; align-items: center">
+!image(devoxx2k24/images/deno.png)
+</div>
+<ul>
+<li>Secure Runtime Typescript et Javascript, aussi créé par Ryan Dahl en 2018</li>
+<li><a href="https://www.youtube.com/watch?v=M3BM9TB-8yA">"10 things I regret about Node.js"</a></li>
+<li>Change d'approche volontairement par rapport à Node.js
+    <ul>
+        <li>Sécurité</li>
+        <li>Build system, package.json & node_modules</li>
+        <li>Outils intégrés et librairie standard</li>
+    </ul>
+</li>
+<li>Moteur Chrome V8, développé en Rust</li>
+<li>Single threaded et support de l'API Worker</li>
+</ul>
+</div>
+
+## .[no-title-slide]
+
+<div class="left-text"><p>Hello World</p></div>
+
+<div class="content">
+<div style="display: flex; align-items: center">
+!image(devoxx2k24/images/deno.png)
+</div>
+
+<p/>
+``#!/usr/bin/env -S deno run --allow-env --allow-net``
+``Deno.serve({ port: 8080 },_req => new Response("Hello World!"));``
+
+## .[no-title-slide]
+
+<div class="left-text"><p>Sécu</p></div>
+
+<div class="content">
+<div style="display: flex; align-items: center">
+!image(devoxx2k24/images/deno.png)
+</div>
+<ul>
+<li><ul>Permissions
+    <li>``--allow-env``</li>
+    <li>``--allow-sys``</li>
+    <li>``--allow-net``</li>
+    <li>``--allow-read``</li>
+    <li>``--allow-write``</li>
+    </ul>
+</li>
+<li>``-A`` ou ``--allow-all``, à utiliser avec précaution</li>
+</ul>
+</div>
+
+## .[no-title-slide]
+
+<div class="left-text"><p>Tests</p></div>
+
+
+<div class="content">
+<div style="display: flex; align-items: center">
+!image(devoxx2k24/images/deno.png)
+</div>
+<ul>
+<li>Framework de test supporté par Deno</li>
+<li>Mocking</li>
+<li>Format de test "à la BDD" : ``Describe``, ``it``</li>
+</ul>
+``import { assertEquals }``<p/>
+``from "https://deno.land/std@0.204.0/assert/mod.ts";``
+``import { describe, it }``<p/>
+``from "https://deno.land/std@0.204.0/testing/bdd.ts";``
+</div>
+
+## .[no-title-slide]
+
+<div class="left-text"><p>Tools</p></div>
+
+<div class="content">
+<div style="display: flex; align-items: center">
+!image(devoxx2k24/images/deno.png)
+</div>
+<ul>
+<li>``deno.json``<ul>
+    <li>``"tasks": { "start": "deno run -A --allow-net src/server.ts" }``</li>
+    <li>Import map : ``"imports": { "@tsoa/runtime": "npm:@tsoa/runtime" }``</li>
+    </ul>
+</li>
+<li>Compatibilité avec ``package.json`` mais cet usage n'est pas recommandé</li>
+</ul>
+
+## Examples.[title]
+
+<div class="content">
+<div style="display: flex; align-items: center">
+!image(devoxx2k24/images/deno.png)
+</div>
+
+## .[no-title-slide]
+
+<div class="left-text"><p>Bun</p></div>
+
+<div class="content">
+<div style="display: flex; align-items: center">
+!image(devoxx2k24/images/bun.png)
+</div>
+<ul>
+<li>Runtime Typescript et Javascript, créé par Jarred Sumner, supporté par la société Oven</li>
+<li>Moteur WebKit, JavaScriptCore : plus rapide et efficace en gestion de la mémoire</li>
+<li>développé en Zig</li>
+<li>Vient avec son propre package manager : ``bun install`` </li>
+<li>Rétro-compatible Node.js</li>
+<li>On peut utiliser NPM ou Yarn comme Package Manager, et on peut se passer de phase de transpilation TS vers JS</li>
+<li>Single threaded et support de l'API Worker</li>
+</ul>
+</div>
+
+## Examples.[title]
+
+<div class="content">
+<div style="display: flex; align-items: center">
+!image(devoxx2k24/images/bun.png)
+</div>
+
+
+## .[no-title-slide]
+
+<div class="left-text"><p>Choix</p></div>
+
+<div class="content">
+<div style="display: flex; align-items: center">
+!image(devoxx2k24/images/deno.png, alt, 200, 200)
+!image(devoxx2k24/images/bun.png, alt, 200, 200)
+!image(devoxx2k24/images/node.png, alt, 200, 123)
+</div>
+<ul>
+<li>Pour Tester, on a implémenté le 1er usecase de notre API avec les trois runtimes</li>
+<li>Deno
+    <ul>
+        <li>Pros : Outils, perfs, quasi-compatible avec l'écosystème Typescript/Node.js existant, ça commence à prendre en terme de communauté</li>
+        <li>Cons : Y a encore un peu de bricolage, on a bidouillé avec notre librairie OpenAPI</li>
+    </ul>
+</li>
+<li>Bun
+    <ul>
+        <li>Pros : Compatible avec l'écosystème Typescript/Node.js existant, Outillage simplifié</li>
+        <li>Cons : Encore trop jeune</li>
+    </ul>
+</li>
+</ul>
+</div>
+
+## Questions !.[title]

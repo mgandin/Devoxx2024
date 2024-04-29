@@ -1,0 +1,25 @@
+{
+  "entryFile": "src/server-with-api.ts",
+  "noImplicitAdditionalProperties": "ignore",
+  "controllerPathGlobs": [
+    "src/**/*.controller.ts"
+  ],
+  "spec": {
+    "outputDirectory": "build",
+    "specVersion": 3,
+    "basePath": "/"
+  },
+  "routes": {
+    "routesDir": "build"
+  },
+  "swagger": {
+    "routesDir": "build"
+  },
+  "compilerOptions": {
+    "baseUrl": "./",
+    "allowImportingTsExtensions": true,
+    "paths": {
+      "@src": ["./src/"]
+    }
+  }
+}

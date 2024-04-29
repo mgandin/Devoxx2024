@@ -1,0 +1,13 @@
+{
+  "imports": {
+    "@tsoa/runtime": "npm:@tsoa/runtime",
+    "testing": "https://deno.land/std@0.204.0/assert/mod.ts",
+    "testing/bdd": "https://deno.land/std@0.204.0/testing/bdd.ts"
+  },
+  "tasks": {
+    "build": "deno run --unstable --allow-read --allow-write npm:tsoa spec-and-routes && gsed -i \"s|import { \\(.*\\) } from '\\.\\(.*\\)';|import { \\1 } from '\\.\\2.ts';|g\" build/routes.ts",
+    "hello": "deno run --allow-env --allow-read --allow-net src/server.ts",
+    "start": "deno run --allow-env --allow-read --allow-net src/server-with-api.ts",
+    "test": "deno test --allow-read"
+  }
+}

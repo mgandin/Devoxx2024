@@ -1,0 +1,35 @@
+{
+  "name": "bun",
+  "module": "src/server.ts",
+  "type": "module",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "bun-types": "^1.0.6"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@tsoa/runtime": "^5.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.9.0",
+    "@typescript-eslint/eslint-plugin-tslint": "^6.9.0",
+    "@typescript-eslint/parser": "^6.9.0",
+    "eslint": "^8.52.0",
+    "eslint-plugin-eslint-comments": "^3.2.0",
+    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-typescript-sort-keys": "^3.1.0",
+    "eslint-plugin-unused-imports": "^3.0.0",
+    "express": "^4.18.2",
+    "swagger-ui-express": "^5.0.0",
+    "tsoa": "^5.1.1",
+    "vitest": "^0.34.6"
+  },
+  "scripts": {
+    "generateroutes": "rm -fr ./src/generated && tsoa spec-and-routes",
+    "build": "bun generateroutes ./node_modules/.bin/tsc -p tsconfig.json --incremental",
+    "hello": "bun src/server.ts",
+    "start": "bun src/server-with-api.ts",
+    "test": "bun vitest run"
+  }
+}
